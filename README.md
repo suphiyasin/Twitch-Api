@@ -18,7 +18,7 @@
 <h3 align="center">Twitch Api V1.0.0</h3>
 
 <p align="center">
- ABOUT 
+twitch login, 2 factor login, follow/unfollow streamers, report inappropriate broadcasts and new features as the day progresses..
     <br>
     <a href="https://github.com/suphiyasin/Twitch-Api/issues">Feedback</a>
     <br>
@@ -28,7 +28,7 @@
 
 ## About the project
 
-ss
+Twitch login, 2 factor login, follow/unfollow streamers, report inappropriate broadcasts and new features as the day progresses..
 
 
 ### Requirements
@@ -38,11 +38,78 @@ ss
 ## Using the repo by downloading
 
 1. <a href="https://github.com/suphiyasin/Twitch-Api/archive/refs/heads/main.zip">This</a> download script
+2. Edit test.php:8 
+3. Run test.php
 
-# Look Results
+# Examples
 
+### Login 
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$look = $use->login("TWITCH-USERNAME", "TWITCH-PASSWORD");
+echo $look;
 
-# Screenshots
+```
+
+### Two Factor Login
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$use->auth = $_SESSION['authcode'];
+$look = $use->login("TWITCH-USERNAME", "TWITCH-PASSWORD");
+echo $look;
+if(isset($_POST['codetoken'])){
+	$check = $use->twofactor($_POST['codetoken'], $_POST['code']);
+	echo $check;
+}
+
+```
+
+### Follow
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$use->auth = $_SESSION['authcode'];
+$use->follow("wtcn");
+``` 
+
+### Unfollow
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$use->auth = $_SESSION['authcode'];
+$use->unfollow("wtcn");
+``` 
+### Info 
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$use->auth = $_SESSION['authcode'];
+$info = $use->getInfo("wtcn");
+//0 = bio , 1 = username, 2 = pplink, 3 = offline pp, 4 = viewcount, 5 = Create Date, 6 = display name
+$a = explode("`", $info);
+echo '<img src="'.$a[3].'"/>';
+```
+### Report Streamer
+```
+<?php
+session_start();
+include("api.php");
+$use = new tw();
+$use->auth = $_SESSION['authcode'];
+$use->report("reason for report", "StreamerUsername");
+```
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/suphiyasin/Twitch-Api.svg?style=for-the-badge
